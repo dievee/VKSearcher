@@ -202,6 +202,7 @@
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WallController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -210,6 +211,10 @@
     <Compile Include="JsonModels\Friend\FriendsItems.cs" />
     <Compile Include="JsonModels\LikeInfo.cs" />
     <Compile Include="JsonModels\UserInfo.cs" />
+    <Compile Include="JsonModels\UsersLike\Like.cs" />
+    <Compile Include="JsonModels\UsersLike\LikesData.cs" />
+    <Compile Include="JsonModels\UsersWall\PhotoRequest.cs" />
+    <Compile Include="JsonModels\UsersWall\WallRequest.cs" />
     <Compile Include="JsonModels\User\User.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
