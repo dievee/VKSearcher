@@ -28,7 +28,7 @@ namespace VkSearcher.Controllers
         // GET: api/Friends/5
         public FriendsData Get(int id)
         {
-            string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
+            
             //string id = "81959312";
 
             string friends = String.Format("https://api.vk.com/method/friends.get?user_id={0}&order=name&offset=4&filter=all&fields=domain,online&name_case=ins&access_token={1}&v=5.50", id, access_token);

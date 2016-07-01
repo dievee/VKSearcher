@@ -12,6 +12,8 @@ namespace VkSearcher.Controllers
 {
     public class BaseController : ApiController
     {
+        protected string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
+
         //private VkUserInfo vkUserInf;
         private BaseController vkUserInf;
         private LikeInfo likeInformation;
