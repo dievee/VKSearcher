@@ -9,33 +9,15 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using VkSearcher.Code;
+using VkSearcher.Controllers;
 using VkSearcher.JsonModels;
 
 
 namespace VkSearcher.Controllers
 {
-    public class FriendController : ApiController
+    public class FriendController : BaseController
     {
-        private VkUserInfo vkUserInf;
-        private LikeInfo likeInformation;
-        public Dictionary<string, User> usersLike;
-        public Dictionary<string, bool> likesInfo;
-        public Dictionary<string, List<User>> tempDict;
-        public List<User> tempList;
-        private static System.Timers.Timer aTimer;
-        private AutoResetEvent autoEvent;
-
-        protected override void Initialize(HttpControllerContext requestContext)
-        {
-            vkUserInf = new VkUserInfo();
-            likeInformation = new LikeInfo();
-            usersLike = new Dictionary<string, User>();
-            likesInfo = new Dictionary<string, bool>();
-            tempDict = new Dictionary<string, List<User>>();
-            tempList = new List<User>();
-            autoEvent = new AutoResetEvent(false);
-            base.Initialize(requestContext);
-        }
+        
 
         // GET: api/Friends
         public IEnumerable<string> Get()
@@ -50,7 +32,7 @@ namespace VkSearcher.Controllers
             //string id = "81959312";
 
             string friends = String.Format("https://api.vk.com/method/friends.get?user_id={0}&order=name&offset=4&filter=all&fields=domain,online&name_case=ins&access_token={1}&v=5.50", id, access_token);
-            var friend = vkUserInf.Load(friends);
+            var friend = Load(friends);
             var usersFriends = JsonConvert.DeserializeObject<FriendsData>(friend);
 
             //var likeDictionary = vkUserInf.GetUsesLike_Wall(wallDictionary);
