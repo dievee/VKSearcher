@@ -280,7 +280,7 @@ namespace VkSearcher.Controllers
             return finalResponse;
         }
 
-        public LikesData LikeRequest(string request)
+        public  LikesData LikeRequest(string request)
         {
             string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
             request = HttpUtility.UrlEncode(request);
@@ -290,6 +290,138 @@ namespace VkSearcher.Controllers
             var correctResponse = JsonEdit(response);
             var wallTime = JsonConvert.DeserializeObject<LikesData>(correctResponse);
             return wallTime;
+        }
+
+
+        public  Photo GetAlbums(string userId)
+        {
+            string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
+            string request = "var d=API.photos.getAlbums({\"owner_id\":" + userId + ",\"need_system\":\"true\"});return d;";
+            request = HttpUtility.UrlEncode(request);
+            string term = String.Format("https://api.vk.com/method/execute?access_token={0}&code={1}&v=5.50", access_token, request);
+            var response = Load(term);
+            var albums = JsonConvert.DeserializeObject<Photo>(response);
+            return albums;
+        }
+
+        public  List<PhotoInfo> GetPhoto(Photo album, string userId)
+        {
+            string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
+            List<PhotoInfo> photoInfo = new List<PhotoInfo>();
+            for (int i = 0; i < album.photoItems.albumInfo.Count; i++)
+            {
+                string request = "var d=API.photos.get({\"owner_id\":" + userId + ",\"album_id\":" + album.photoItems.albumInfo[i].id + "});return d;";
+                request = HttpUtility.UrlEncode(request);
+                string term = String.Format("https://api.vk.com/method/execute?access_token={0}&code={1}&v=5.50", access_token, request);
+                var response = Load(term);
+                var photo = JsonConvert.DeserializeObject<PhotoData>(response);
+                foreach (var p in photo.info.photoInfo)
+                {
+                    photoInfo.Add(p);
+                }
+            }
+            return photoInfo;
+        }
+
+        public List<UserPhoto> GetUsesLike_Photo(List<PhotoInfo> photoInfo, string friendsId, string targetUserId)
+        {
+            int length = photoInfo.Count;
+            int maincounter = 0;
+            int beginpoint = 0;
+            string owner_id = null;
+            string item_id = null;
+            string param = null;
+            string request = null;
+            int count = 0;
+            int itemsCounter = 0;
+            int loopCounter = 0;
+            int idCounter = 0;
+            string id = targetUserId;
+
+            if (length % 25 != 0) maincounter = length / 25 + 1;
+            else maincounter = length / 25;
+
+            LikesData response = null;
+            List<UserPhoto> finalResponse = new List<UserPhoto>();
+
+            for (int i = 0; i < maincounter; i++)
+            {
+                if (length - beginpoint > 25)
+                {
+                    count = 25;
+                    beginpoint += 25;
+                    param = null;
+                    for (int z = 1; z < count + 1; z++)
+                    {
+                        if (z != 25) param = ",";
+                        else param = "";
+                        owner_id = owner_id + String.Format("{0}{1}", photoInfo[itemsCounter].owner_id, param);
+                        item_id = item_id + String.Format("{0}{1}", photoInfo[itemsCounter].id, param);
+                        itemsCounter++;
+                    }
+
+                    request = "var count = 25;var owner_id = [" + owner_id + "];var item_id = [" + item_id + "];var i = 0,d=[],likeInfo=[];while (i<count){d = API.likes.getList({type:\"photo\",owner_id:owner_id[i],item_id:item_id[i],filter:\"likes\",extended:1});i = i + 1;likeInfo.push(d);}return likeInfo;";
+                    response = LikeRequest(request);
+                    if (response.like == null) break;
+                    else
+                    {
+                        foreach (Like like in response.like)
+                        {
+                            foreach (User user in response.like[loopCounter].items)
+                            {
+                                if (friendsId == user.id)
+                                {
+                                    finalResponse.Add(new UserPhoto(photoInfo[idCounter].owner_id, photoInfo[idCounter].id, photoInfo[idCounter].album_id));// Дичь с цыклом
+                                }
+                                else { continue; }
+                            }
+                            idCounter++;
+                            loopCounter++;
+                        }
+                        loopCounter = 0;
+
+                    }
+                    owner_id = null;
+                    item_id = null;
+                }
+
+                else
+                {
+                    count = length - beginpoint;
+                    param = null;
+                    for (int z = 1; z < count + 1; i++)
+                    {
+                        z++;
+                        if (z != 25) param = ",";
+                        else param = "";
+                        owner_id = owner_id + String.Format("{0}{1}", photoInfo[itemsCounter].owner_id, param);
+                        item_id = item_id + String.Format("{0}{1}", photoInfo[itemsCounter].id, param);
+                        itemsCounter++;
+                    }
+
+                    request = "var count = 25;var owner_id = [" + owner_id + "];var item_id = [" + item_id + "];var i = 0,d=[],likeInfo=[];while (i<count){d = API.likes.getList({type:\"photo\",owner_id:owner_id[i],item_id:item_id[i],filter:\"likes\",extended:1});i = i + 1;likeInfo.push(d);}return likeInfo;";
+                    response = LikeRequest(request);
+
+                    foreach (Like like in response.like)
+                    {
+                        foreach (User user in response.like[loopCounter].items)
+                        {
+                            if (friendsId == user.id)
+                            {
+                                finalResponse.Add(new UserPhoto(photoInfo[idCounter].owner_id, photoInfo[idCounter].id, photoInfo[idCounter].album_id));
+
+                            }
+                            else continue;
+                        }
+                        idCounter++;
+                        loopCounter++;
+                    }
+                    loopCounter = 0;
+                    owner_id = null;
+                    item_id = null;
+                }
+            }
+            return finalResponse;
         }
     }
 }
