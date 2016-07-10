@@ -306,7 +306,7 @@ namespace VkSearcher.Controllers
 
         public  List<PhotoInfo> GetPhoto(Photo album, string userId)
         {
-            string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
+           // string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
             List<PhotoInfo> photoInfo = new List<PhotoInfo>();
             for (int i = 0; i < album.photoItems.albumInfo.Count; i++)
             {

@@ -201,7 +201,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LikedPhotoController.cs" />
+    <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WallController.cs" />
     <Compile Include="Global.asax.cs">

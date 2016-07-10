@@ -16,8 +16,14 @@ namespace VkSearcher
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
+                name: "SimplePathApi",
                 routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "AdvancedPathApi",
+                routeTemplate: "api/LikedPhoto/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
