@@ -18,7 +18,8 @@ namespace VkSearcher.Controllers
         }
 
         // GET: возвращает информацию о лайках targetUser на стену другу или любому другому пользователю
-        public List<UserInfo> Get(string friendsId, string targetUserId)
+        [HttpGet]
+        public List<UserInfo> Likes(string friendsId, string targetUserId)  //+
         {
             tempUser.id = friendsId;
             tempList.Add(tempUser);
