@@ -5,11 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using VkSearcher.JsonModels;
-using VkSearcher.Controllers;
+using VkSearcher.Managers;
 
 namespace VkSearcher.Controllers
 {
-    public class WallController : BaseController
+    public class WallController : ApiController
     {
         // GET: api/GetWall
         public IEnumerable<string> Get()
@@ -21,10 +21,12 @@ namespace VkSearcher.Controllers
         [HttpGet]
         public List<UserInfo> Likes(string friendsId, string targetUserId)  //+
         {
-            tempUser.id = friendsId;
-            tempList.Add(tempUser);
-            var wallDictionary = GetWallInfo(tempList);
-            var likeDictionary = GetUsesLike_Wall(wallDictionary, targetUserId);
+            VkManager vkm = new VkManager();
+
+            vkm.tempUser.id = friendsId;
+            vkm.tempList.Add(vkm.tempUser);
+            var wallDictionary = vkm.GetWallInfo(vkm.tempList);
+            var likeDictionary = vkm.GetUsesLike_Wall(wallDictionary, targetUserId);
 
             return likeDictionary;
         }

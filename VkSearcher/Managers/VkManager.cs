@@ -13,27 +13,27 @@ using VkSearcher.JsonModels;
 using VkSearcher.JsonModels.UsersLike;
 using VkSearcher.JsonModels.UsersWall;
 
-namespace VkSearcher.Controllers
+namespace VkSearcher.Managers
 {
-    public class BaseController : ApiController
+    public class VkManager
     {
-        protected string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
+        public string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
 
         //private VkUserInfo vkUserInf;
-        private BaseController vkUserInf;
+        private VkManager vkUserInf;
         private LikeInfo likeInformation;
         public Dictionary<string, User> usersLike;
         public Dictionary<string, bool> likesInfo;
         public Dictionary<string, List<User>> tempDict;
         public List<User> tempList;
-        protected User tempUser;
+        public User tempUser;
         //  private static System.Timers.Timer aTimer;
         // private AutoResetEvent autoEvent;
 
-        protected override void Initialize(HttpControllerContext requestContext)
+        protected  void Initialize(HttpControllerContext requestContext) //override
         {
             //vkUserInf = new VkUserInfo();
-            vkUserInf = new BaseController();
+            vkUserInf = new VkManager();
             likeInformation = new LikeInfo();
             usersLike = new Dictionary<string, User>();
             likesInfo = new Dictionary<string, bool>();
@@ -41,7 +41,8 @@ namespace VkSearcher.Controllers
             tempList = new List<User>();
             tempUser = new User();
             //   autoEvent = new AutoResetEvent(false);
-            base.Initialize(requestContext);
+
+         //  base.Initialize(requestContext);
         }
 
 
@@ -54,7 +55,7 @@ namespace VkSearcher.Controllers
             return JObject.Parse(response);
         }
 
-        public static string Load(string address)
+        public string Load(string address)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
             var request = WebRequest.Create(address) as HttpWebRequest;
@@ -280,7 +281,7 @@ namespace VkSearcher.Controllers
             return finalResponse;
         }
 
-        public  LikesData LikeRequest(string request)
+        public LikesData LikeRequest(string request)
         {
             string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
             request = HttpUtility.UrlEncode(request);
@@ -293,7 +294,7 @@ namespace VkSearcher.Controllers
         }
 
 
-        public  Photo GetAlbums(string userId)
+        public Photo GetAlbums(string userId)
         {
             string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
             string request = "var d=API.photos.getAlbums({\"owner_id\":" + userId + ",\"need_system\":\"true\"});return d;";
@@ -304,9 +305,9 @@ namespace VkSearcher.Controllers
             return albums;
         }
 
-        public  List<PhotoInfo> GetPhoto(Photo album, string userId)
+        public List<PhotoInfo> GetPhoto(Photo album, string userId)
         {
-           // string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
+            // string access_token = "e7c520cc53cf2bcb2a675cc8c767de065abebfe15f0913b2b702659124b8409441707b4dac8a8c4e58eaf";
             List<PhotoInfo> photoInfo = new List<PhotoInfo>();
             for (int i = 0; i < album.photoItems.albumInfo.Count; i++)
             {

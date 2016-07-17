@@ -18,17 +18,31 @@ namespace VkSearcher
             config.MapHttpAttributeRoutes();
 
 
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
+
+            //config.Routes.MapHttpRoute(
+            //    name: "AdvancedPathApi",
+            //    routeTemplate: "api/{controller}/{action}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
+
             config.Routes.MapHttpRoute(
-                name: "SimplePathApi",
+                name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
-                name: "AdvancedPathApi",
-                routeTemplate: "api/{controller}/{action}/{id}"  ///{id}
-                , defaults: new { id = RouteParameter.Optional }
+                name: "DefaultApiWithAction",
+                routeTemplate: "api/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
             );
+
+
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
         }
     }

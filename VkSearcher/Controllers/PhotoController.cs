@@ -1,31 +1,47 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using VkSearcher.JsonModels;
+using VkSearcher.Managers;
 
 namespace VkSearcher.Controllers
 {
-    public class PhotoController : BaseController
+    public class PhotoController : ApiController
     {
 
-        [HttpGet]
-        public List<UserPhoto> Likes(string friendsId, string targetUserId) //+
+       // [HttpGet]
+        public List<UserPhoto> GetLikes(string friendsId, string targetUserId) //+
         {
+            VkManager vkm = new VkManager();
 
-            var albumInfo = GetAlbums(targetUserId);
-            var photoInfo = GetPhoto(albumInfo, targetUserId);
-            var likes = GetUsesLike_Photo(photoInfo, friendsId, targetUserId);
+            var albumInfo = vkm.GetAlbums(targetUserId);
+            var photoInfo = vkm.GetPhoto(albumInfo, targetUserId);
+            var likes = vkm.GetUsesLike_Photo(photoInfo, friendsId, targetUserId);
+
             return likes;
-
         }
 
-        //[ActionName("liked1")]
-        //public List<UserPhoto> Get(string frienwwwedsId, string targetUweserId)
+
+
+
+        //[HttpGet]
+        //public string Likes(string friendsId)  
         //{
 
-        //    var albumInfo = GetAlbums(targetUserId);
-        //    var photoInfo = GetPhoto(albumInfo, targetUserId);
-        //    var likes = GetUsesLike_Photo(photoInfo, friendsId, targetUserId);
-        //    return likes;
+        //    return "successs";
         //}
+
+        [HttpPost]
+        public string PostLikes([FromBody]string value)  //, string targetUserId     List<UserPhoto>
+        {
+
+            return "successs";
+        }
+
+        [HttpGet]
+        public string Posts(string postid)  //, string targetUserId     List<UserPhoto>
+        {
+
+            return "successs";
+        }
     }
 }

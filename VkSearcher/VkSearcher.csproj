@@ -198,7 +198,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Code\VkUserInfo.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
@@ -220,6 +219,7 @@
     <Compile Include="JsonModels\UsersWall\PhotoRequest.cs" />
     <Compile Include="JsonModels\UsersWall\WallRequest.cs" />
     <Compile Include="JsonModels\User\User.cs" />
+    <Compile Include="Managers\VkManager.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ApplicationUserManager.cs" />
