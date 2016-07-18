@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using VkSearcher.JsonModels;
+using VkSearcher.Managers;
 
 namespace VkSearcher.Controllers
 {
@@ -15,9 +17,12 @@ namespace VkSearcher.Controllers
             return new string[] { "user1", "user2" };
         }
 
-        public string Get(int id)
+        public string GetId(string domain)
         {
-            return "user_id";
+            VkManager vkm = new VkManager();
+            var response = vkm.UserInfo(domain);
+
+            return response;
         }
 
         public void Post([FromBody]string value)

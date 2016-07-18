@@ -424,5 +424,12 @@ namespace VkSearcher.Managers
             }
             return finalResponse;
         }
+
+        public string UserInfo(string request)// делает запрос на стену каждого целевого пользователя
+        {
+            string term = String.Format("https://api.vk.com/method/users.get?user_ids={0}&v=5.50", request);
+            var response = Load(term);// После 2 вызова 3 элемент фолсе ИСПРАВИТЬ
+            return response;
+        }
     }
 }
