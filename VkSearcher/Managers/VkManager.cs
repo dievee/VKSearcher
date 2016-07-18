@@ -25,8 +25,8 @@ namespace VkSearcher.Managers
         public Dictionary<string, User> usersLike;
         public Dictionary<string, bool> likesInfo;
         public Dictionary<string, List<User>> tempDict;
-        public List<User> tempList;
-        public User tempUser;
+        public List<User> tempList = new List<User>();
+        public User tempUser = new User();
         //  private static System.Timers.Timer aTimer;
         // private AutoResetEvent autoEvent;
 
@@ -403,20 +403,29 @@ namespace VkSearcher.Managers
                     request = "var count = 25;var owner_id = [" + owner_id + "];var item_id = [" + item_id + "];var i = 0,d=[],likeInfo=[];while (i<count){d = API.likes.getList({type:\"photo\",owner_id:owner_id[i],item_id:item_id[i],filter:\"likes\",extended:1});i = i + 1;likeInfo.push(d);}return likeInfo;";
                     response = LikeRequest(request);
 
-                    foreach (Like like in response.like)
+                    try
                     {
-                        foreach (User user in response.like[loopCounter].items)
+                        foreach (Like like in response.like)  // try catch for nullable 
                         {
-                            if (friendsId == user.id)
+                            foreach (User user in response.like[loopCounter].items)
                             {
-                                finalResponse.Add(new UserPhoto(photoInfo[idCounter].owner_id, photoInfo[idCounter].id, photoInfo[idCounter].album_id));
+                                if (friendsId == user.id)
+                                {
+                                    finalResponse.Add(new UserPhoto(photoInfo[idCounter].owner_id, photoInfo[idCounter].id, photoInfo[idCounter].album_id));
 
+                                }
+                                else continue;
                             }
-                            else continue;
+                            idCounter++;
+                            loopCounter++;
                         }
-                        idCounter++;
-                        loopCounter++;
                     }
+                    catch(NullReferenceException)
+                    {
+                        finalResponse = null;
+                    }
+                    
+
                     loopCounter = 0;
                     owner_id = null;
                     item_id = null;
